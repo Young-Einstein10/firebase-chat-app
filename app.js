@@ -59,3 +59,29 @@ db.collection("messages")
 		document.querySelector('#messages').prepend(message)
 	});
 });
+
+
+document.querySelector('#clear').addEventListener('click', () => {
+	// Step 1
+  db.collection("messages")
+  .get()
+  // Step 2 (if success)
+  .then(function (snapshot) {
+    snapshot.forEach(function (doc) {
+      // Step 3
+      db.collection("messages").doc(doc.id).delete()
+      // Step 4 (if success)
+      .then(function () {
+        console.log("Document successfully deleted!")
+      })
+      // Step 4 (if error)
+      .catch(function (error) {
+        console.error("Error removing document: ", error);
+      })
+    })
+  })
+  // Step 2 (if error)
+  .catch(function (error) {
+    console.log("Error getting documents: ", error);
+  })
+})
